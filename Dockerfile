@@ -6,7 +6,7 @@ ARG TARBALL_URL
 
 # Install required packages to compile, then cleanup
 RUN apt update; DEBIAN_FRONTEND=noninteractive apt install -y build-essential libgmp3-dev \
-    zlib1g-dev openssl curl git llvm* \
+    zlib1g-dev libnuma1 libnuma-dev libncurses-dev libncurses5 libtinfo5 curl git llvm* \
     && rm -rf /var/lib/apt/lists/*
 
 # Make our work directory and straight untar our source files
