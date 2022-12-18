@@ -48,10 +48,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3  
 
-      # Using Docker BuildX we compile using the .tar.gz from SimpleX's latest Tagged Release
+      # Using Docker we compile using the .tar.gz from SimpleX's latest Tagged Release
       - name: Build SimpleX
         run: |
-          docker buildx build --target export --output ${PWD}/bins --build-arg TARBALL_URL="${{ needs.get_info.outputs.TARBALL_URL }}" .
+          docker build -t simplex-build --no-cache --build-arg TARBALL_URL="${{ needs.get_info.outputs.TARBALL_URL }}" .
+          docker create --name simplex-binaries simplex-build
+          docker cp simplex-binaries:/bins .
+          docker rm simplex-binaries
+          docker image rm simplex-build
 
       # Create our .tar.gz from the Docker build output
       - name: Create Tarball From Docker Build

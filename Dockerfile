@@ -33,7 +33,3 @@ RUN dpkgArch="$(dpkg --print-architecture)"; ARCH=; \
 # Copy our binaries to /bins from /root/.local/bin
 RUN mkdir /bins \
     && cp /root/.cabal/bin/* /bins
-
-# Scratch is a special slim docker pointer that allows us to export the binaries to the host
-FROM scratch AS export
-COPY --from=build /bins .
